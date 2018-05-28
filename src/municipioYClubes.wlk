@@ -30,6 +30,12 @@ class Club {
 	}
 	
 	method jugadorEsEstrella(jugador)
+	method relacionEntrePaseJugadorYPaseMinimo(jugador) {
+		return jugador.valorPase() > valorMinPase
+	}
+	method cantActividadesDondeParticipa(jugador) {
+		return actividades.count({actividad => actividad.integrantes().contains(jugador)}) 
+	}
 	
 	method esSancionado() {
 		if (socios.size() >= 500) {
@@ -46,14 +52,14 @@ class Tradicional inherits Club {
 	}
 	
 	override method jugadorEsEstrella(jugador) {
-		return (jugador.valorPase() > valorMinPase) or (actividades.count({actividad => actividad.integrantes().contains(jugador)}))
+		return self.relacionEntrePaseJugadorYPaseMinimo(jugador) or self.cantActividadesDondeParticipa(jugador) >= 3
 	}
 }
 
 class Comunitario inherits Club {
 	
 	override method jugadorEsEstrella(jugador) {
-		return actividades.count({actividad => actividad.integrantes().contains(jugador)}) >= 3
+		return self.cantActividadesDondeParticipa(jugador) >= 3
 	}
 }
 
@@ -65,6 +71,6 @@ class Profesional inherits Club {
 	}
 	
 	override method jugadorEsEstrella(jugador) {
-		return jugador.valorPase() > valorMinPase
+		return self.relacionEntrePaseJugadorYPaseMinimo(jugador)
 	}
 }

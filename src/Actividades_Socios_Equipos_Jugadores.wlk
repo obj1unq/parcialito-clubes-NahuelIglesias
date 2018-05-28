@@ -6,11 +6,12 @@ class Equipo { //tambien actividad deportiva
 	var plantel = #{} //conjunto de jugadores, INCLUYE AL CAP
 	var capitan = jugadorX
 	var sanciones = 0
+	var campeonatosObtenidos = 0
 
 	method integrantes() {
 		return plantel
 	}
-	method capitan() {
+	method lider() {
 		return capitan
 	}
 	
@@ -20,17 +21,32 @@ class Equipo { //tambien actividad deportiva
 	method sanciones() {
 		return sanciones
 	}
+	
+	method evaluarActividad() {
+		return (5*campeonatosObtenidos) + (2*plantel) + (if (capitan.esEstrella()){5} else {0}) - (20*sanciones)
+	}
+	method jugadoresEstrella() {
+		return plantel.filter({jugador => jugador.esEstrella()})
+	}
+}
+
+class EquipoFutbol inherits Equipo {
+
+	override method evaluarActividad() {
+		return super() + (5*self.jugadoresEstrella().size()) - (10*sanciones)
+	}
 }
 
 class ActividadSocial {
 	var socioOrganizador = socioX
 	var participantes = #{} //conjunto de socios participantes
 	var estaSuspendida = false
+	var valorActividad = 50
 	
 	method integrantes() {
 		return participantes
 	}
-	method organizador() {
+	method lider() {
 		return socioOrganizador
 	}
 	
@@ -42,6 +58,13 @@ class ActividadSocial {
 	}
 	method estaSuspendida() {
 		return estaSuspendida
+	}
+	
+	method evaluarActividad() {
+		return if (!estaSuspendida) {
+			valorActividad
+		}
+		else {0}
 	}
 }
 
