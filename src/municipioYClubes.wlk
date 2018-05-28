@@ -11,7 +11,8 @@ object municipio {
 //------Clubes------
 
 class Club {
-	var actividades = #{} //conjunto de actividades sociales y equipos
+	var actividadesSociales = #{} //conjunto actividades sociales
+	var equipos = #{} //conjunto equipos (actividades deportivas)
 	var socios = #{} //conjunto de socios
 	var gastoMensual = 0
 	
@@ -19,7 +20,7 @@ class Club {
 		return puntos
 	}
 	method actividades() {
-		return actividades
+		return equipos + actividadesSociales
 	}
 	method socios() {
 		return socios
@@ -31,17 +32,17 @@ class Club {
 		return jugador.valorPase() > valorMinPase
 	}
 	method cantActividadesDondeParticipa(jugador) {
-		return actividades.count({actividad => actividad.integrantes().contains(jugador)}) 
+		return self.actividades().count({actividad => actividad.integrantes().contains(jugador)}) 
 	}
 	
 	method esSancionado() {
 		if (socios.size() >= 500) {
-			actividades.forEach({actividad => actividad.esSancionada()})
+			self.actividades().forEach({actividad => actividad.esSancionada()})
 		}
 	}
 	
 	method evaluacionBruta() {
-		var evaluacionActividades = actividades
+		var evaluacionActividades = self.actividades()
 		evaluacionActividades.map({actividad => actividad.evaluarActividad()})
 		return evaluacionActividades.sum()
 	}
@@ -55,6 +56,10 @@ class Club {
 	
 	method sociosDestacadosEstrella() {
 		return self.sociosDestacados().filter({socio => socio.esEstrella()})
+	}
+	
+	method esPrestigioso() {
+		return equipos.any({equipo => equipo.esExperimentado()}) or actividadesSociales.any({actividad => actividad.esEstrellada()})
 	}
 }
 

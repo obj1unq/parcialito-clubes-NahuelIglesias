@@ -70,6 +70,10 @@ class ActividadSocial {
 		}
 		else {0}
 	}
+	
+	method esEstrellada() {
+		return participantes.filter({socio => socio.esEstrella()}).size() >=5
+	}
 }
 
 //------Socios------
