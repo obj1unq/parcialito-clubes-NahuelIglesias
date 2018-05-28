@@ -11,9 +11,9 @@ object municipio {
 //------Clubes------
 
 class Club {
-	var puntos = 0
 	var actividades = #{} //conjunto de actividades sociales y equipos
 	var socios = #{} //conjunto de socios
+	var gastoMensual = 0
 	
 	method puntos() {
 		return puntos
@@ -25,9 +25,6 @@ class Club {
 		return socios
 	}
 	
-	method evaluarClub() {
-	
-	}
 	
 	method jugadorEsEstrella(jugador)
 	method relacionEntrePaseJugadorYPaseMinimo(jugador) {
@@ -42,6 +39,15 @@ class Club {
 			actividades.forEach({actividad => actividad.esSancionada()})
 		}
 	}
+	
+	method evaluacionBruta() {
+		var evaluacionActividades = actividades
+		evaluacionActividades.map({actividad => actividad.evaluarActividad()})
+		return evaluacionActividades.sum()
+	}
+	method evaluarClub() {
+		return self.evaluacionBruta() / socios.size()
+	}
 }
 
 class Tradicional inherits Club {
@@ -53,6 +59,10 @@ class Tradicional inherits Club {
 	
 	override method jugadorEsEstrella(jugador) {
 		return self.relacionEntrePaseJugadorYPaseMinimo(jugador) or self.cantActividadesDondeParticipa(jugador) >= 3
+	}
+	
+	override method evaluacionBruta() {
+		return super() - gastoMensual
 	}
 }
 
@@ -72,5 +82,9 @@ class Profesional inherits Club {
 	
 	override method jugadorEsEstrella(jugador) {
 		return self.relacionEntrePaseJugadorYPaseMinimo(jugador)
+	}
+	
+	override method evaluacionBruta() {
+		return (super()*2) - (gastoMensual*5)
 	}
 }
