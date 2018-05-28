@@ -28,6 +28,10 @@ class Equipo { //tambien actividad deportiva
 	method jugadoresEstrella() {
 		return plantel.filter({jugador => jugador.esEstrella()})
 	}
+	
+	method esExperimetado() {
+		return plantel.all({jugador => jugador.partidosJugados() >= 10})
+	}
 }
 
 class EquipoFutbol inherits Equipo {
@@ -90,6 +94,9 @@ class Jugador inherits Socio {
 	
 	method valorPase() {
 		return valorPase
+	}
+	method partidosJugados() {
+		return partidosJugados
 	}
 	
 	override method esEstrella() {
