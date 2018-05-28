@@ -32,6 +32,13 @@ class Equipo { //tambien actividad deportiva
 	method esExperimetado() {
 		return plantel.all({jugador => jugador.partidosJugados() >= 10})
 	}
+	
+	method remover(jugador) {
+		plantel = plantel.remove(jugador)
+	}
+	method comprar(jugador) {
+		plantel = plantel.add(jugador)
+	}
 }
 
 class EquipoFutbol inherits Equipo {
@@ -74,6 +81,10 @@ class ActividadSocial {
 	method esEstrellada() {
 		return participantes.filter({socio => socio.esEstrella()}).size() >=5
 	}
+	
+	method remover(socio) {
+		participantes = participantes.remove(socio)
+	}
 }
 
 //------Socios------
@@ -81,14 +92,18 @@ class ActividadSocial {
 
 class Socio { //pertenece a un solo club
 	var aniosDeSocio = 0
-	var perteneceA = clubX
+	var suClub = clubX
 	
 	method esEstrella() {
 		return aniosDeSocio > 20
 	}
 	
 	method esDestacado() {
-		return clubX.actividades().any({actividad => actividad.lider() == self})
+		return suClub.actividades().any({actividad => actividad.lider() == self})
+	}
+	
+	method seRetira(actividad) {
+		actividad.remover(self)
 	}
 }
 
@@ -104,6 +119,14 @@ class Jugador inherits Socio {
 	}
 	
 	override method esEstrella() {
-		return partidosJugados >= 50 or perteneceA.jugadorEsEstrella(self)
+		return partidosJugados >= 50 or suClub.jugadorEsEstrella(self)
+	}
+	
+	method esTransferidoA(equipoNuevo) { //como llevarlo al otro club??
+		if (!self.esDestacado()) {
+			suClub.remueveA(self)
+			equipoNuevo.comprar(self)
+			partidosJugados = 0
+		}
 	}
 }

@@ -16,14 +16,17 @@ class Club {
 	var socios = #{} //conjunto de socios
 	var gastoMensual = 0
 	
-	method puntos() {
-		return puntos
-	}
 	method actividades() {
 		return equipos + actividadesSociales
 	}
 	method socios() {
 		return socios
+	}
+	method equipos() {
+		return equipos
+	}
+	method actividadesSociales() {
+		return actividadesSociales
 	}
 	
 	
@@ -61,7 +64,19 @@ class Club {
 	method esPrestigioso() {
 		return equipos.any({equipo => equipo.esExperimentado()}) or actividadesSociales.any({actividad => actividad.esEstrellada()})
 	}
+	
+	method remueveA(socioX) {
+		socios.remove(socioX)
+		equipos.forEach({equipo => equipo.remover(socioX)})
+		actividadesSociales.forEach({actividad => actividad.remover(socioX)})
+	}
+	
+	method nuevoSocio(socioX) {
+		socios.add(socioX)
+	}
 }
+
+
 
 class Tradicional inherits Club {
 	var property valorMinPase = 0
@@ -79,12 +94,14 @@ class Tradicional inherits Club {
 	}
 }
 
+
 class Comunitario inherits Club {
 	
 	override method jugadorEsEstrella(jugador) {
 		return self.cantActividadesDondeParticipa(jugador) >= 3
 	}
 }
+
 
 class Profesional inherits Club {
 	var property valorMinPase = 0
