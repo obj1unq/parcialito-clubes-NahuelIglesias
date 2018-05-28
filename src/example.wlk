@@ -79,7 +79,7 @@ class Jugador inherits Socio {
 	}
 }
 
-//------Actividades sociales y socios------
+//------Actividades sociales y socios-------
 
 class ActividadSocial {
 	var socioOrganizador = socioX

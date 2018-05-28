@@ -15,15 +15,31 @@ class Club {
 	var actividades = #{} //conjunto de actividades sociales y equipos
 	var socios = #{} //conjunto de socios
 	
+	method puntos() {
+		return puntos
+	}
+	method actividades() {
+		return actividades
+	}
+	method socios() {
+		return socios
+	}
+	
 	method evaluarClub() {
 	
 	}
 	
 	method jugadorEsEstrella(jugador)
+	
+	method esSancionado() {
+		if (socios.size() >= 500) {
+			actividades.forEach({actividad => actividad.esSancionada()})
+		}
+	}
 }
 
 class Tradicional inherits Club {
-	var valorMinPase = 0
+	var property valorMinPase = 0
 	
 	method configurarValorMinPase(nuevoValor) {
 		valorMinPase = nuevoValor
@@ -42,7 +58,7 @@ class Comunitario inherits Club {
 }
 
 class Profesional inherits Club {
-	var valorMinPase = 0
+	var property valorMinPase = 0
 	
 	method configurarValorMinPase(nuevoValor) {
 		valorMinPase = nuevoValor
