@@ -52,6 +52,10 @@ class Club {
 	method sociosDestacados() {
 		return socios.filter({socio => socio.esDestacado(self)})
 	}
+	
+	method sociosDestacadosEstrella() {
+		return self.sociosDestacados().filter({socio => socio.esEstrella()})
+	}
 }
 
 class Tradicional inherits Club {
