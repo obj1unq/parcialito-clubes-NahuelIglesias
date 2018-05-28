@@ -1,3 +1,4 @@
+/*
 object municipio {
 	var clubes = #{} //conjunto de clubes
 	
@@ -29,16 +30,14 @@ class Tradicional inherits Club {
 	}
 	
 	override method jugadorEsEstrella(jugador) {
-		var cantActividades = actividades
-		return jugador.valorPase() > valorMinPase or cantActividades.count({actividad => actividad.contains(jugador)}) >= 3
+		return (jugador.valorPase() > valorMinPase) or (actividades.count({actividad => actividad.participantes().contains(jugador)}) >= 3 + equipos.count({equipo => equipo.plantel().contains(jugador)}))
 	}
 }
 
 class Comunitario inherits Club {
 	
 	override method jugadorEsEstrella(jugador) {
-		var cantActividades = actividades
-		return cantActividades.count({actividad => actividad.contains(jugador)}) >= 3
+		return actividades.count({actividad => actividad.participantes().contains(jugador)}) >= 3
 	}
 }
 
@@ -60,6 +59,9 @@ class Equipo {
 	var plantel = #{} //conjunto de jugadores, INCLUYE AL CAP
 	var capitan = jugadorX
 	
+	method plantel() {
+		return plantel
+	}
 }
 
 
@@ -82,6 +84,10 @@ class Jugador inherits Socio {
 class ActividadSocial {
 	var socioOrganizador = socioX
 	var participantes = #{} //conjunto de socios participantes
+	
+	method participantes() {
+		return participantes
+	}
 }
 
 class Socio { //pertenece a un solo club
@@ -92,3 +98,4 @@ class Socio { //pertenece a un solo club
 	}
 }
 
+*/

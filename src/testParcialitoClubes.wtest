@@ -1,7 +1,16 @@
-import example.*
+import municipioYClubes.*
+import Actividades_Socios_Equipos_Jugadores.*
 
-test "testX" {
-
-	assert.that(true)
-
+describe "testeo general" {
+	var club
+	var ajedrez
+	var futbol
+	var pepe
+	
+	fixture {
+		club = new Tradicional(puntos=12, actividades=#{ajedrez, futbol}, socios=#{pepe})
+		ajedrez = new ActividadSocial()
+		pepe = new Jugador()
+		futbol = new Equipo()
+	}
 }
