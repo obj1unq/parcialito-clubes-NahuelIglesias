@@ -73,16 +73,20 @@ class ActividadSocial {
 
 class Socio { //pertenece a un solo club
 	var aniosDeSocio = 0
+	var perteneceA = clubX
 	
 	method esEstrella() {
 		return aniosDeSocio > 20
+	}
+	
+	method esDestacado() {
+		return clubX.actividades().any({actividad => actividad.lider() == self})
 	}
 }
 
 class Jugador inherits Socio {
 	var valorPase = 0
 	var partidosJugados = 0
-	var perteneceA = clubX
 	
 	method valorPase() {
 		return valorPase

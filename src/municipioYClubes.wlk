@@ -48,6 +48,10 @@ class Club {
 	method evaluarClub() {
 		return self.evaluacionBruta() / socios.size()
 	}
+	
+	method sociosDestacados() {
+		return socios.filter({socio => socio.esDestacado(self)})
+	}
 }
 
 class Tradicional inherits Club {
